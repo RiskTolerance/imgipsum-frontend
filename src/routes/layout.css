@@ -35,4 +35,18 @@
 		height: 100%;
 		object-fit: cover;
 	}
+
+	picture > img {
+		opacity: 0;
+		transition: opacity 400ms ease-out;
+	}
+	picture > img[data-loaded] {
+		opacity: 1;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		picture > img {
+			opacity: 1;
+			transition: none;
+		}
+	}
 }

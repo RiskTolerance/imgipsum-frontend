@@ -7,6 +7,25 @@
 	import Footer from '$lib/components/Footer.svelte';
 
 	let { children } = $props();
+
+	$effect(() => {
+		const handle = (img: HTMLImageElement) => {
+			if (img.complete && img.naturalHeight !== 0) img.dataset.loaded = '';
+			else img.addEventListener('load', () => (img.dataset.loaded = ''), { once: true });
+		};
+		document.querySelectorAll<HTMLImageElement>('picture > img').forEach(handle);
+		const obs = new MutationObserver((records) => {
+			for (const r of records) {
+				for (const n of r.addedNodes) {
+					if (n instanceof HTMLImageElement && n.parentElement?.tagName === 'PICTURE') handle(n);
+					else if (n instanceof Element)
+						n.querySelectorAll<HTMLImageElement>('picture > img').forEach(handle);
+				}
+			}
+		});
+		obs.observe(document.body, { childList: true, subtree: true });
+		return () => obs.disconnect();
+	});
 </script>
 
 <svelte:head>

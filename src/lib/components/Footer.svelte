@@ -2,7 +2,7 @@
 	import { CDN_BASE } from '$lib/config';
 </script>
 
-<footer class="mt-32 border-t border-line/60">
+<footer class="border-t border-line/60">
 	<div
 		class="mx-auto flex max-w-6xl flex-col items-start gap-6 px-6 py-12 sm:flex-row sm:items-center sm:justify-between"
 	>

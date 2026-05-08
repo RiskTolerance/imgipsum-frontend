@@ -1,44 +1,13 @@
 <script lang="ts">
 	import CodeBlock from '$lib/components/CodeBlock.svelte';
-	import {
-		CDN_BASE,
-		COLLECTIONS,
-		COLLECTION_KEYS,
-		FORMATS,
-		SIZES,
-		oneUrl,
-		randomUrl
-	} from '$lib/config';
+	import { COLLECTIONS, COLLECTION_KEYS, FORMATS, SIZES, oneUrl, randomUrl } from '$lib/config';
 	import { resolve } from '$app/paths';
 
 	const sections = [
-		{ id: 'overview', title: 'Overview' },
 		{ id: 'routes', title: 'Routes' },
 		{ id: 'parameters', title: 'Parameters' },
 		{ id: 'collections', title: 'Collections' },
-		{ id: 'caching', title: 'Caching' },
-		{ id: 'rate-limits', title: 'Rate limits' },
-		{ id: 'errors', title: 'Errors' },
 		{ id: 'recipes', title: 'Recipes' }
-	];
-
-	const errors = [
-		{
-			code: 400,
-			when: 'Invalid params',
-			body: 'Missing field, bad size, bad format, traversal attempt.'
-		},
-		{
-			code: 400,
-			when: 'Image not found',
-			body: 'Collection name is valid but image number does not exist.'
-		},
-		{
-			code: 404,
-			when: 'Unknown collection',
-			body: 'Only on /random — the named collection has no count.'
-		},
-		{ code: 429, when: 'Rate limited', body: 'Slow down. Limit is per IP.' }
 	];
 
 	const exampleHtml = `<img\n  src="${randomUrl('portraits', 800, 800, 'webp')}"\n  alt="Random portrait"\n  width="800"\n  height="800"\n  loading="lazy"\n/>`;
@@ -76,28 +45,9 @@
 			<p class="text-sm font-medium tracking-wider text-accent-deep uppercase">Documentation</p>
 			<h1 class="mt-2 font-display text-5xl tracking-tight sm:text-6xl">The whole API</h1>
 			<p class="mt-4 max-w-xl text-lg text-muted">
-				Two GET routes, four parameters each. No auth, no SDK. Reads are free; you're rate-limited
-				on volume per IP.
+				Two GET routes, four parameters each. No auth, no SDK. Compose a URL — get an image.
 			</p>
 		</header>
-
-		<section id="overview" class="space-y-4">
-			<h2 class="font-display text-3xl tracking-tight">Overview</h2>
-			<p class="leading-relaxed text-ink/80">
-				imgipsum is a tiny placeholder image service. Compose a URL with a width, height, format,
-				and a curated image — get back a transformed image, cached at the edge.
-			</p>
-			<div class="grid gap-3 font-mono text-sm sm:grid-cols-2">
-				<div class="rounded-lg border border-line bg-mist p-3">
-					<div class="text-xs tracking-wide text-muted uppercase">Base</div>
-					<div class="mt-1 break-all text-ink">{CDN_BASE}</div>
-				</div>
-				<div class="rounded-lg border border-line bg-mist p-3">
-					<div class="text-xs tracking-wide text-muted uppercase">Method</div>
-					<div class="mt-1 text-ink">GET</div>
-				</div>
-			</div>
-		</section>
 
 		<section id="routes" class="space-y-8">
 			<h2 class="font-display text-3xl tracking-tight">Routes</h2>
@@ -115,8 +65,8 @@
 					>
 				</div>
 				<p class="text-muted">
-					Returns a specific image. Same URL → same bytes, forever. Use this when you want a stable,
-					repeatable result (e.g. design comps that should look the same on every reload).
+					A specific image. Same URL → same bytes, forever. Responses are immutable and cached at
+					the edge — use this when you want the comp to look the same on every reload.
 				</p>
 				<CodeBlock code={oneUrl('portraits', 3, 800, 800, 'webp')} lang="GET" />
 			</div>
@@ -135,13 +85,16 @@
 					>
 				</div>
 				<p class="text-muted">
-					Picks a random image from <code class="font-mono">:collection</code> and
-					<strong class="text-ink">302</strong> redirects to the matching
-					<code class="font-mono">/one/…</code>
-					URL. Different image on each request — but once you land on a specific
-					<code class="font-mono">/one/…</code>, that response is cached.
+					Picks a random image and <strong class="text-ink">302</strong> redirects to the matching
+					<code class="font-mono">/one/…</code> URL. Different image per request, but each landed URL
+					is itself cached.
 				</p>
 				<CodeBlock code={randomUrl('landscapes', 1200, 800, 'avif')} lang="GET" />
+			</div>
+
+			<div class="rounded-lg border-l-4 border-accent-deep bg-accent/10 p-4 text-sm text-ink/80">
+				Rate-limited per IP. Hitting the limit returns <code class="font-mono">429</code>; back off
+				and retry — cached URLs still serve.
 			</div>
 		</section>
 
@@ -199,10 +152,10 @@
 				</table>
 			</div>
 
-			<div class="rounded-lg border-l-4 border-accent-deep bg-accent/10 p-4 text-sm">
-				<strong>Heads up:</strong> sizes are a closed enum. Anything not in the list returns a
-				<code class="font-mono">400</code>. This keeps the cache small and predictable.
-			</div>
+			<p class="text-sm text-muted">
+				Sizes are a closed enum — anything else returns <code class="font-mono">400</code>. Keeps
+				the cache predictable.
+			</p>
 		</section>
 
 		<section id="collections" class="space-y-6">
@@ -221,53 +174,6 @@
 						<p class="mt-1 text-sm text-muted">{COLLECTIONS[c].blurb}</p>
 					</div>
 				{/each}
-			</div>
-		</section>
-
-		<section id="caching" class="space-y-4">
-			<h2 class="font-display text-3xl tracking-tight">Caching</h2>
-			<p class="leading-relaxed text-ink/80">
-				Every <code class="font-mono">/one/…</code> response includes:
-			</p>
-			<CodeBlock code="Cache-Control: public, max-age=31536000, immutable" lang="response header" />
-			<p class="text-muted">
-				URLs are content-addressed by the params, so they never change meaning. The Worker also
-				keeps a copy in Cloudflare's edge cache via <code class="font-mono">caches.default</code> — first
-				request transforms, every subsequent request is served from the POP.
-			</p>
-		</section>
-
-		<section id="rate-limits" class="space-y-4">
-			<h2 class="font-display text-3xl tracking-tight">Rate limits</h2>
-			<p class="leading-relaxed text-ink/80">
-				Limits are enforced per IP via Cloudflare's rate limiting binding. When you hit it, you'll
-				get a <code class="font-mono">429</code> with body
-				<code class="font-mono">"rate limited"</code>. Back off and retry — cached URLs still serve
-				instantly during the cooldown.
-			</p>
-		</section>
-
-		<section id="errors" class="space-y-4">
-			<h2 class="font-display text-3xl tracking-tight">Errors</h2>
-			<div class="overflow-hidden rounded-lg border border-line">
-				<table class="w-full text-left text-sm">
-					<thead class="bg-mist text-xs tracking-wider text-muted uppercase">
-						<tr>
-							<th class="px-4 py-3">Status</th>
-							<th class="px-4 py-3">When</th>
-							<th class="px-4 py-3">Body</th>
-						</tr>
-					</thead>
-					<tbody class="divide-y divide-line">
-						{#each errors as e (e.code + e.when)}
-							<tr>
-								<td class="px-4 py-3 font-mono text-ink">{e.code}</td>
-								<td class="px-4 py-3">{e.when}</td>
-								<td class="px-4 py-3 text-muted">{e.body}</td>
-							</tr>
-						{/each}
-					</tbody>
-				</table>
 			</div>
 		</section>
 

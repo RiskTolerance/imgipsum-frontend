@@ -30,7 +30,7 @@
 <div class="overflow-hidden rounded-2xl border border-line bg-paper shadow-sm">
 	<div class="grid gap-0 lg:grid-cols-[1fr_1.1fr]">
 		<!-- preview -->
-		<div class="relative aspect-square overflow-hidden bg-mist lg:aspect-auto">
+		<div class="relative aspect-square overflow-hidden bg-mist">
 			{#key preview}
 				<enhanced:img
 					src={preview}

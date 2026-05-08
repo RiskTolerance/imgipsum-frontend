@@ -2,7 +2,7 @@
 	import UrlBuilder from '$lib/components/UrlBuilder.svelte';
 	import Gallery from '$lib/components/Gallery.svelte';
 	import CodeBlock from '$lib/components/CodeBlock.svelte';
-	import { CDN_BASE, COLLECTIONS, COLLECTION_KEYS, FORMATS, SIZES } from '$lib/config';
+	import { CDN_BASE, FORMATS, SIZES } from '$lib/config';
 	import { pick } from '$lib/images';
 	import { resolve } from '$app/paths';
 
@@ -33,14 +33,8 @@
 	</div>
 
 	<div class="relative mx-auto max-w-6xl px-6 py-20 sm:py-28">
-		<p
-			class="mb-5 inline-flex items-center gap-2 rounded-full border border-ink/15 bg-paper/70 px-3 py-1 text-xs text-ink backdrop-blur"
-		>
-			<span class="size-1.5 animate-pulse rounded-full bg-accent-deep"></span>
-			Live · {Object.values(COLLECTIONS).reduce((a, c) => a + c.count, 0)} curated images
-		</p>
 		<h1 class="font-display text-5xl leading-[0.95] tracking-tight sm:text-7xl md:text-8xl">
-			Lorem ipsum, <em class="text-muted italic">but for</em> images.
+			Lorem ipsum, <em class="italic">but for</em> images.
 		</h1>
 		<p class="mt-6 max-w-xl text-lg text-muted sm:text-xl">
 			A tiny image CDN for prototypes, design comps, and demos. Pick a size, a format, a vibe — get
@@ -102,47 +96,12 @@
 	<Gallery />
 </section>
 
-<!-- COLLECTION CARDS -->
-<section class="mx-auto max-w-6xl px-6 pb-20">
-	<h2 class="font-display text-4xl tracking-tight sm:text-5xl">Four collections</h2>
-	<p class="mt-2 max-w-xl text-muted">
-		Each request to <code class="font-mono text-ink">/random</code> picks one at random within the named
-		collection. More on the way.
-	</p>
-	<div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-		{#each COLLECTION_KEYS as c (c)}
-			{@const cover = pick(c, 1)}
-			<a
-				href="#playground"
-				class="group relative overflow-hidden rounded-xl border border-line bg-paper transition-all hover:-translate-y-0.5 hover:shadow-lg"
-			>
-				<div class="aspect-4/5 overflow-hidden">
-					<enhanced:img
-						src={cover}
-						alt={COLLECTIONS[c].label}
-						sizes="(min-width: 1024px) 25vw, 50vw"
-						class="size-full object-cover transition-transform duration-700 group-hover:scale-105"
-					/>
-				</div>
-				<div
-					class="absolute inset-x-0 bottom-0 bg-linear-to-t from-ink/90 via-ink/40 to-transparent p-4 text-paper"
-				>
-					<div class="font-display text-2xl">{COLLECTIONS[c].label}</div>
-					<div class="text-xs text-paper/70">
-						{COLLECTIONS[c].count} images · {COLLECTIONS[c].blurb}
-					</div>
-				</div>
-			</a>
-		{/each}
-	</div>
-</section>
-
 <!-- QUICK REFERENCE -->
 <section class="border-t border-line/60 bg-ink text-paper">
 	<div class="mx-auto grid max-w-6xl gap-12 px-6 py-20 lg:grid-cols-2">
 		<div>
 			<p class="text-sm font-medium tracking-wider text-accent uppercase">Quick reference</p>
-			<h2 class="mt-2 font-display text-4xl tracking-tight sm:text-5xl">Two routes. That's it.</h2>
+			<h2 class="mt-2 font-display text-4xl tracking-tight sm:text-5xl">Two routes.</h2>
 			<p class="mt-4 max-w-md text-paper/70">
 				Pick a specific image when you need determinism. Pick a random one when you don't care.
 			</p>
