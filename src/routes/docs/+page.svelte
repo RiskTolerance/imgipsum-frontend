@@ -45,7 +45,7 @@
 			<p class="text-sm font-medium tracking-wider text-accent-deep uppercase">Documentation</p>
 			<h1 class="mt-2 font-display text-5xl tracking-tight sm:text-6xl">The whole API</h1>
 			<p class="mt-4 max-w-xl text-lg text-muted">
-				Two GET routes, four parameters each. No auth, no SDK. Compose a URL — get an image.
+				Two GET routes, four parameters each. No auth, no SDK.
 			</p>
 		</header>
 
@@ -65,8 +65,8 @@
 					>
 				</div>
 				<p class="text-muted">
-					A specific image. Same URL → same bytes, forever. Responses are immutable and cached at
-					the edge — use this when you want the comp to look the same on every reload.
+					A specific image. The same URL always returns the same image. Cached at the edge — use
+					this when you want the comp to look the same on every reload.
 				</p>
 				<CodeBlock code={oneUrl('portraits', 3, 800, 800, 'webp')} lang="GET" />
 			</div>
@@ -86,8 +86,8 @@
 				</div>
 				<p class="text-muted">
 					Picks a random image and <strong class="text-ink">302</strong> redirects to the matching
-					<code class="font-mono">/one/…</code> URL. Different image per request, but each landed URL
-					is itself cached.
+					<code class="font-mono">/one/…</code> URL. Different image per request; the redirect target
+					is cached.
 				</p>
 				<CodeBlock code={randomUrl('landscapes', 1200, 800, 'avif')} lang="GET" />
 			</div>
@@ -153,8 +153,7 @@
 			</div>
 
 			<p class="text-sm text-muted">
-				Sizes are a closed enum — anything else returns <code class="font-mono">400</code>. Keeps
-				the cache predictable.
+				Sizes are a closed enum — anything else returns <code class="font-mono">400</code>.
 			</p>
 		</section>
 
@@ -215,11 +214,7 @@
 		</section>
 
 		<section class="rounded-2xl bg-ink p-10 text-paper">
-			<h2 class="font-display text-3xl tracking-tight">That's the whole thing.</h2>
-			<p class="mt-3 max-w-md text-paper/70">
-				If you want a feature that isn't here — a new collection, a new format, a different size —
-				open an issue.
-			</p>
+			<h2 class="font-display text-3xl tracking-tight">That's the whole API.</h2>
 			<a
 				href={resolve('/')}
 				class="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-ink transition-transform hover:scale-[1.02]"

@@ -11,16 +11,16 @@
 
 	const features = [
 		{
-			title: 'Edge-cached',
-			body: 'Every transform is cached by Cloudflare. After the first hit, you get bytes from the closest POP.'
+			title: 'Cached',
+			body: 'Every URL is cached at the edge. After the first request, responses come from a nearby cache.'
 		},
 		{
-			title: 'Honest formats',
-			body: 'AVIF, WebP, JPEG, PNG. Pick the one your browser likes — no negotiation, no surprises.'
+			title: 'Formats',
+			body: 'AVIF, WebP, JPEG, PNG. You pick the one you want; the server does not negotiate.'
 		},
 		{
-			title: 'Predictable URLs',
-			body: 'No tokens. No keys. No client SDK. Just a URL with the size, format, and image you want.'
+			title: 'No SDK',
+			body: 'No tokens, no keys, no client library. The URL contains the size, format, and image.'
 		}
 	];
 </script>
@@ -37,8 +37,8 @@
 			Lorem ipsum, <em class="italic">but for</em> images.
 		</h1>
 		<p class="mt-6 max-w-xl text-lg text-muted sm:text-xl">
-			A tiny image CDN for prototypes, design comps, and demos. Pick a size, a format, a vibe — get
-			a URL.
+			An image CDN for prototypes, design comps, and demos. Pick a size, a format, and a
+			collection; get a URL.
 		</p>
 
 		<div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -85,7 +85,7 @@
 			<h2 class="mt-1 font-display text-4xl tracking-tight sm:text-5xl">Build a URL</h2>
 		</div>
 		<p class="hidden max-w-sm text-sm text-muted sm:block">
-			Tweak the knobs. Copy the URL. Paste it anywhere that takes an image.
+			Pick the options, copy the URL, paste it anywhere that takes an image.
 		</p>
 	</div>
 	<UrlBuilder />
@@ -103,7 +103,8 @@
 			<p class="text-sm font-medium tracking-wider text-accent uppercase">Quick reference</p>
 			<h2 class="mt-2 font-display text-4xl tracking-tight sm:text-5xl">Two routes.</h2>
 			<p class="mt-4 max-w-md text-paper/70">
-				Pick a specific image when you need determinism. Pick a random one when you don't care.
+				Use <code class="font-mono">/one</code> when you want the same image every time, and
+				<code class="font-mono">/random</code> when you don't.
 			</p>
 			<a
 				href={resolve('/docs')}
@@ -118,14 +119,14 @@
 		<div class="space-y-6 font-mono text-sm">
 			<div class="rounded-lg border border-paper/15 p-4">
 				<div class="text-accent">GET /one/:w/:h/:format/:collection/:n</div>
-				<div class="mt-2 text-paper/60">a specific image — same URL, same bytes, forever</div>
+				<div class="mt-2 text-paper/60">a specific image; same URL returns the same image</div>
 				<div class="mt-3 break-all text-paper/90">
 					{CDN_BASE}/one/800/800/webp/portraits/3
 				</div>
 			</div>
 			<div class="rounded-lg border border-paper/15 p-4">
 				<div class="text-accent">GET /random/:w/:h/:format/:collection</div>
-				<div class="mt-2 text-paper/60">a random one — 302 redirects to /one/...</div>
+				<div class="mt-2 text-paper/60">a random image; 302 redirects to /one/…</div>
 				<div class="mt-3 break-all text-paper/90">
 					{CDN_BASE}/random/1200/800/avif/landscapes
 				</div>

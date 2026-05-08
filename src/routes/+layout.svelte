@@ -33,7 +33,7 @@
 	<title>imgipsum — placeholder images, served from the edge</title>
 	<meta
 		name="description"
-		content="Free placeholder images in any size and format. Lorem ipsum, but for images. Cached forever, served from Cloudflare."
+		content="Free placeholder images in any size and format. Lorem ipsum, but for images."
 	/>
 </svelte:head>
 

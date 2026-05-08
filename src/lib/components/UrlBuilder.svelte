@@ -52,7 +52,7 @@
 		</div>
 
 		<!-- controls -->
-		<div class="flex flex-col gap-5 p-6 lg:p-8">
+		<div class="flex min-w-0 flex-col gap-5 p-4 sm:p-6 lg:p-8">
 			<div class="flex items-center gap-1 rounded-full bg-mist p-1 text-sm">
 				{#each ['random', 'one'] as const as m (m)}
 					<button
@@ -125,7 +125,7 @@
 
 			<label class="flex flex-col gap-2 text-sm">
 				<span class="text-xs font-medium tracking-wide text-muted uppercase">Format</span>
-				<div class="grid grid-cols-4 gap-2">
+				<div class="grid grid-cols-2 gap-2 min-[420px]:grid-cols-4">
 					{#each FORMATS as f (f)}
 						<button
 							type="button"
@@ -144,7 +144,8 @@
 			</label>
 
 			<div class="mt-2 flex items-center gap-2 rounded-lg border border-line bg-mist p-2">
-				<code class="flex-1 overflow-x-auto px-2 py-1 font-mono text-xs whitespace-nowrap text-ink"
+				<code
+					class="min-w-0 flex-1 overflow-x-auto px-2 py-1 font-mono text-xs whitespace-nowrap text-ink"
 					>{url}</code
 				>
 				<CopyButton value={url} />

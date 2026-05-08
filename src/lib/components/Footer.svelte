@@ -12,7 +12,7 @@
 		</div>
 		<div class="flex flex-col gap-1 text-sm text-muted sm:items-end">
 			<code class="font-mono">{CDN_BASE}</code>
-			<span>Cached forever. Rate-limited per IP. Built on Cloudflare.</span>
+			<span>Cached forever. Rate-limited per IP.</span>
 		</div>
 	</div>
 </footer>

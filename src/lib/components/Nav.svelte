@@ -11,7 +11,6 @@
 	<nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
 		<a href={resolve('/')} class="group flex items-baseline gap-2">
 			<span class="font-display text-2xl tracking-tight">imgipsum</span>
-			<span class="text-xs text-muted group-hover:text-ink">/ lorem ipsum, but for images</span>
 		</a>
 
 		<ul class="flex items-center gap-1">
