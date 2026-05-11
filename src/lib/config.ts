@@ -10,7 +10,10 @@ export const COLLECTIONS = {
 	portraits: { count: 20, label: 'Portraits', blurb: 'Faces, expressions, character.' },
 	food: { count: 20, label: 'Food', blurb: 'Plates, ingredients, kitchen craft.' },
 	landscapes: { count: 20, label: 'Landscapes', blurb: 'Vistas, weather, terrain.' },
-	architecture: { count: 20, label: 'Architecture', blurb: 'Buildings, lines, structure.' }
+	architecture: { count: 20, label: 'Architecture', blurb: 'Buildings, lines, structure.' },
+	'pets/dogs': { count: 20, label: 'Dogs', blurb: 'Good boys and girls.' },
+	'pets/cats': { count: 20, label: 'Cats', blurb: 'Indifferent royalty.' },
+	'pets/other': { count: 5, label: 'Other Pets', blurb: 'Everything else with whiskers, scales, or feathers.' }
 } as const;
 
 export type Collection = keyof typeof COLLECTIONS;

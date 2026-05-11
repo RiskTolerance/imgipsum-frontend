@@ -25,6 +25,10 @@
 	);
 	const preview = $derived(pick(collection, n));
 	const previewN = $derived(COLLECTIONS[collection].count);
+
+	$effect(() => {
+		if (n > previewN) n = previewN;
+	});
 </script>
 
 <div class="overflow-hidden rounded-2xl border border-line bg-paper shadow-sm">

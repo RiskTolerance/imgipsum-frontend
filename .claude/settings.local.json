@@ -2,5 +2,10 @@
   "enabledMcpjsonServers": [
     "svelte"
   ],
-  "enableAllProjectMcpServers": true
+  "enableAllProjectMcpServers": true,
+  "permissions": {
+    "allow": [
+      "Bash(bun run *)"
+    ]
+  }
 }
